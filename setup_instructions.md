@@ -1,6 +1,6 @@
 # Dating Site Automation Tool - Setup Instructions
 
-## Prerequisites
+## Prerequisites 
 
 - Chrome browser (for extension development)
 - Web server (Apache/Nginx) with PHP 7.4+
