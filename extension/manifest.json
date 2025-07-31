@@ -1,0 +1,55 @@
+{
+  "manifest_version": 3,
+  "name": "Dating Site Automation Tool",
+  "version": "1.0.0",
+  "description": "Automate liking profiles and sending messages on dating websites",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://www.internationalcupid.com/*",
+    "https://www.afrointroductions.com/*",
+    "http://www.portslip.com/*",
+    "https://www.portslip.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.internationalcupid.com/*",
+        "https://www.afrointroductions.com/*"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Dating Site Automation",
+    "default_icon": {
+      "16": "icons/icon16_inactive.png",
+      "32": "icons/icon32_inactive.png",
+      "48": "icons/icon48_inactive.png",
+      "128": "icons/icon128_inactive.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["content.js"],
+      "matches": [
+        "https://www.internationalcupid.com/*",
+        "https://www.afrointroductions.com/*"
+      ]
+    }
+  ]
+}
