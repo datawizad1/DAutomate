@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Login Screen -->
+        <div id="loginScreen" class="screen">
+            <div class="logo-container">
+                <img src="icons/icon48.png" alt="Logo" class="logo">
+                <h2>Dating Site Automation</h2>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <div id="loginError" class="error-message"></div>
+            </form>
+        </div>
+
+        <!-- Main App Screen -->
+        <div id="mainScreen" class="screen hidden">
+            <div class="header">
+                <img src="icons/icon32.png" alt="Logo" class="header-logo">
+                <h3>Dating Automation</h3>
+                <div class="header-actions">
+                    <button id="soundToggle" class="btn-icon" title="Toggle Sound">🔊</button>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-button active" data-tab="dating-sites">Sites</button>
+                <button class="tab-button" data-tab="bulk-like">Bulk Like</button>
+                <button class="tab-button" data-tab="bulk-messages">Messages</button>
+                <button class="tab-button" data-tab="saved-messages">Saved</button>
+                <button class="tab-button" data-tab="account-info">Account</button>
+            </div>
+
+            <!-- Dating Sites Tab -->
+            <div id="dating-sites" class="tab-content active">
+                <h4>Available Dating Sites</h4>
+                <div id="sitesList" class="sites-list">
+                    <!-- Sites will be populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Bulk Like Tab -->
+            <div id="bulk-like" class="tab-content">
+                <h4>Bulk Like Profiles</h4>
+                <div class="action-section">
+                    <button id="startLikingBtn" class="btn btn-primary">Start Liking Process</button>
+                    <div id="likeProgress" class="progress-section hidden">
+                        <div class="progress-stats">
+                            <div class="stat">
+                                <span class="stat-label">Total Liked:</span>
+                                <span id="totalLiked">0</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Standard:</span>
+                                <span id="standardLiked">0</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Gold:</span>
+                                <span id="goldLiked">0</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Platinum:</span>
+                                <span id="platinumLiked">0</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Skipped:</span>
+                                <span id="skippedLikes">0</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Current Page:</span>
+                                <span id="currentLikePage">1</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="likeProgressBar" class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bulk Messages Tab -->
+            <div id="bulk-messages" class="tab-content">
+                <h4>Bulk Send Messages</h4>
+                <div class="message-form">
+                    <div class="input-group">
+                        <label for="savedMessageSelect">Saved Messages</label>
+                        <select id="savedMessageSelect">
+                            <option value="">Select a saved message...</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="messageText">Message Text</label>
+                        <textarea id="messageText" rows="4" placeholder="Enter your message here..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button id="saveMessageBtn" class="btn btn-secondary">Save Message</button>
+                        <button id="sendToAllBtn" class="btn btn-primary">Send to All</button>
+                    </div>
+                    <div id="messageProgress" class="progress-section hidden">
+                        <div class="progress-stats">
+                            <div class="stat">
+                                <span class="stat-label">Total Sent:</span>
+                                <span id="totalSent">0</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Standard:</span>
+                                <span id="standardSent">0</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Gold:</span>
+                                <span id="goldSent">0</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Platinum:</span>
+                                <span id="platinumSent">0</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Skipped:</span>
+                                <span id="skippedMessages">0</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Current Page:</span>
+                                <span id="currentMessagePage">1</span>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="messageProgressBar" class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Saved Messages Tab -->
+            <div id="saved-messages" class="tab-content">
+                <h4>Manage Saved Messages</h4>
+                <div class="saved-messages-list">
+                    <div id="savedMessagesList">
+                        <!-- Saved messages will be populated here -->
+                    </div>
+                    <button id="addNewMessageBtn" class="btn btn-secondary">Add New Message</button>
+                </div>
+                
+                <!-- Message Editor Modal -->
+                <div id="messageModal" class="modal hidden">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 id="modalTitle">Add New Message</h5>
+                            <button id="closeModal" class="btn-close">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group">
+                                <label for="messageName">Message Name</label>
+                                <input type="text" id="messageName" placeholder="e.g., Greeting Message">
+                            </div>
+                            <div class="input-group">
+                                <label for="modalMessageText">Message Text</label>
+                                <textarea id="modalMessageText" rows="4" placeholder="Enter your message..."></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="cancelMessageBtn" class="btn btn-secondary">Cancel</button>
+                            <button id="saveMessageModalBtn" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Info Tab -->
+            <div id="account-info" class="tab-content">
+                <h4>Account Information</h4>
+                <div class="account-stats">
+                    <div class="stat-card">
+                        <div class="stat-title">Total Profiles Liked</div>
+                        <div class="stat-value" id="totalProfilesLiked">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Total Messages Sent</div>
+                        <div class="stat-value" id="totalMessagesSent">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Account Activated</div>
+                        <div class="stat-value" id="accountActivated">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Account Expiry</div>
+                        <div class="stat-value" id="accountExpiry">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Credits Left</div>
+                        <div class="stat-value" id="creditsLeft">-</div>
+                    </div>
+                </div>
+
+                <div class="account-actions">
+                    <h5>Settings</h5>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="soundEnabledSetting"> Enable Sound Effects
+                        </label>
+                    </div>
+                    
+                    <h5>Profile Tracking</h5>
+                    <div class="tracking-actions">
+                        <button id="forgetLikedBtn" class="btn btn-warning">Forget Liked Profiles</button>
+                        <button id="forgetMessagedBtn" class="btn btn-warning">Forget Messaged Profiles</button>
+                    </div>
+
+                    <h5>Account Actions</h5>
+                    <div class="account-buttons">
+                        <button id="changePasswordBtn" class="btn btn-secondary">Change Password</button>
+                        <button id="logoutBtn" class="btn btn-danger">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="overlay hidden">
+            <div class="spinner"></div>
+            <div class="loading-text">Loading...</div>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
